@@ -8,7 +8,11 @@ load_dotenv()
 @dataclass
 class Config:
     """Configuration settings for the RAG system"""
-    # Anthropic API settings
+    # BigModel (GLM) API settings
+    BIGMODEL_API_KEY: str = os.getenv("BIGMODEL_API_KEY", "")
+    BIGMODEL_MODEL: str = "glm-5"  # or "glm-4-plus", "glm-4-0520"
+
+    # Anthropic API settings (legacy, kept for reference)
     ANTHROPIC_API_KEY: str = os.getenv("ANTHROPIC_API_KEY", "")
     ANTHROPIC_MODEL: str = "claude-sonnet-4-20250514"
     

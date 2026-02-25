@@ -8,12 +8,28 @@ from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
 import os
+import logging
+import traceback
+
+# Configure detailed logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 from config import config
 from rag_system import RAGSystem
 
 # Initialize FastAPI app
 app = FastAPI(title="Course Materials RAG System", root_path="")
+
+# Global exception handler for detailed error logging
+@app.exception_handler(Exception)
+async def global_exception_handler(request, exc):
+    """Log all exceptions with full traceback"""
+    logger.error(f"Unhandled exception: {str(exc)}\n{traceback.format_exc()}")
+    raise HTTPException(status_code=500, detail=str(exc))
 
 # Add trusted host middleware for proxy
 app.add_middleware(
@@ -64,13 +80,15 @@ async def query_documents(request: QueryRequest):
         
         # Process query using RAG system
         answer, sources = rag_system.query(request.query, session_id)
-        
+
         return QueryResponse(
             answer=answer,
             sources=sources,
             session_id=session_id
         )
     except Exception as e:
+        # Log the full traceback for debugging
+        logger.error(f"Error processing query: {str(e)}\n{traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/courses", response_model=CourseStats)
@@ -83,6 +101,8 @@ async def get_course_stats():
             course_titles=analytics["course_titles"]
         )
     except Exception as e:
+        # Log the full traceback for debugging
+        logger.error(f"Error getting course stats: {str(e)}\n{traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.on_event("startup")
