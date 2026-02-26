@@ -450,38 +450,40 @@ header h1 {
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1rem;
-    background: var(--background);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
+    justify-content: flex-start;
+    gap: 0;
+    padding: 0.5rem 0;
+    background: none;
+    border: none;
+    border-radius: 0;
     font-size: 0.875rem;
     font-weight: 600;
     color: var(--text-secondary);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    outline: none;
+    list-style: none;
 }
 
 .new-chat-button:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--focus-ring);
-}
-
-.new-chat-button:hover {
-    background: var(--surface-hover);
-    border-color: var(--primary-color);
     color: var(--primary-color);
 }
 
-.new-chat-button:active {
-    transform: translateY(0);
+.new-chat-button:hover {
+    color: var(--primary-color);
 }
 
 .new-chat-button svg {
-    flex-shrink: 0;
+    display: none;
+}
+
+.new-chat-button::before {
+    content: '+';
+    display: inline-block;
+    margin-right: 0.5rem;
+    font-size: 0.75rem;
 }
 
 /* Sidebar Headers */
