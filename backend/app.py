@@ -51,6 +51,11 @@ app.add_middleware(
 rag_system = RAGSystem(config)
 
 # Pydantic models for request/response
+class SourceLink(BaseModel):
+    """Structured source with optional URL"""
+    text: str
+    url: Optional[str] = None
+
 class QueryRequest(BaseModel):
     """Request model for course queries"""
     query: str
@@ -59,7 +64,7 @@ class QueryRequest(BaseModel):
 class QueryResponse(BaseModel):
     """Response model for course queries"""
     answer: str
-    sources: List[str]
+    sources: List[SourceLink]
     session_id: str
 
 class CourseStats(BaseModel):
