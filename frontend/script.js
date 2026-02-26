@@ -28,8 +28,13 @@ function setupEventListeners() {
     chatInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') sendMessage();
     });
-    
-    
+
+    // New chat button
+    const newChatButton = document.getElementById('newChatButton');
+    if (newChatButton) {
+        newChatButton.addEventListener('click', startNewChat);
+    }
+
     // Suggested questions
     document.querySelectorAll('.suggested-item').forEach(button => {
         button.addEventListener('click', (e) => {
@@ -159,6 +164,18 @@ async function createNewSession() {
     currentSessionId = null;
     chatMessages.innerHTML = '';
     addMessage('Welcome to the Course Materials Assistant! I can help you with questions about courses, lessons and specific content. What would you like to know?', 'assistant', null, true);
+}
+
+async function startNewChat() {
+    // Clear the frontend
+    chatMessages.innerHTML = '';
+    currentSessionId = null;
+
+    // Show welcome message
+    addMessage('Welcome to the Course Materials Assistant! I can help you with questions about courses, lessons and specific content. What would you like to know?', 'assistant', null, true);
+
+    // If there was an existing session, clear it on the backend
+    // (We just reset currentSessionId to null, so the next query will create a new session automatically)
 }
 
 // Load course statistics

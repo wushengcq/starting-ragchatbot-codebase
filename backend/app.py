@@ -110,6 +110,16 @@ async def get_course_stats():
         logger.error(f"Error getting course stats: {str(e)}\n{traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.post("/api/clear-session")
+async def clear_session(session_id: str):
+    """Clear a session's conversation history"""
+    try:
+        rag_system.session_manager.clear_session(session_id)
+        return {"status": "success", "message": "Session cleared"}
+    except Exception as e:
+        logger.error(f"Error clearing session: {str(e)}\n{traceback.format_exc()}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.on_event("startup")
 async def startup_event():
     """Load initial documents on startup"""
