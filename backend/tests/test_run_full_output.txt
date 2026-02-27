@@ -1,0 +1,461 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.12, pytest-9.0.2, pluggy-1.6.0 -- /Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase
+configfile: pyproject.toml
+plugins: mock-3.15.1, anyio-4.9.0, cov-7.0.0
+collecting ... collected 86 items
+
+tests/test_ai_generator.py::TestAIGeneratorToolCalling::test_tool_format_conversion_single_tool PASSED [  1%]
+tests/test_ai_generator.py::TestAIGeneratorToolCalling::test_tool_format_conversion_multiple_tools PASSED [  2%]
+tests/test_ai_generator.py::TestAIGeneratorToolCalling::test_tool_format_conversion_preserves_all_fields PASSED [  3%]
+tests/test_ai_generator.py::TestAIGeneratorToolCalling::test_invokes_search_tool_for_content_question PASSED [  4%]
+tests/test_ai_generator.py::TestAIGeneratorToolCalling::test_invokes_outline_tool_for_structure_question PASSED [  5%]
+tests/test_ai_generator.py::TestAIGeneratorToolCalling::test_does_not_invoke_tool_for_general_question PASSED [  6%]
+tests/test_ai_generator.py::TestAIGeneratorToolCalling::test_passes_correct_parameters_basic_search PASSED [  8%]
+tests/test_ai_generator.py::TestAIGeneratorToolCalling::test_passes_correct_parameters_with_filters PASSED [  9%]
+tests/test_ai_generator.py::TestAIGeneratorToolCalling::test_passes_correct_parameters_outline PASSED [ 10%]
+tests/test_ai_generator.py::TestAIGeneratorToolCalling::test_handles_tool_results_correctly PASSED [ 11%]
+tests/test_ai_generator.py::TestAIGeneratorToolCalling::test_handles_tool_results_with_empty_response PASSED [ 12%]
+tests/test_ai_generator.py::TestAIGeneratorToolCalling::test_handles_tool_execution_failure PASSED [ 13%]
+tests/test_ai_generator.py::TestAIGeneratorToolCalling::test_handles_invalid_json_in_tool_arguments PASSED [ 15%]
+tests/test_ai_generator.py::TestAIGeneratorToolCalling::test_handles_api_error PASSED [ 16%]
+tests/test_ai_generator.py::TestAIGeneratorToolCalling::test_includes_conversation_history PASSED [ 17%]
+tests/test_ai_generator.py::TestAIGeneratorToolCalling::test_without_conversation_history PASSED [ 18%]
+tests/test_ai_generator.py::TestAIGeneratorToolCalling::test_system_prompt_structure PASSED [ 19%]
+tests/test_ai_generator.py::TestAIGeneratorToolCalling::test_base_api_parameters PASSED [ 20%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_query_with_content_question ERROR [ 22%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_query_with_outline_question ERROR [ 23%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_query_with_general_question ERROR [ 24%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_query_with_session_id ERROR [ 25%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_query_without_session_id ERROR [ 26%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_vector_store_data_persistence ERROR [ 27%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_vector_store_retrieval_accuracy ERROR [ 29%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_vector_store_filter_retrieval ERROR [ 30%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_tools_registered_on_init ERROR [ 31%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_tool_execution_through_rag ERROR [ 32%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_tool_definitions_format ERROR [ 33%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_sources_are_captured ERROR [ 34%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_sources_include_urls ERROR [ 36%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_sources_are_reset_after_query ERROR [ 37%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_sources_content_format ERROR [ 38%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_conversation_history_tracking ERROR [ 39%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_conversation_history_limit ERROR [ 40%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_separate_session_histories ERROR [ 41%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_empty_vector_store_handling ERROR [ 43%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_query_with_invalid_session_id ERROR [ 44%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_api_failure_handling ERROR [ 45%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_malformed_query_handling ERROR [ 46%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_get_course_analytics ERROR [ 47%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_add_single_course_document ERROR [ 48%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_full_integration_with_ai_generator ERROR [ 50%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_query_prompt_format ERROR [ 51%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_rag_system_initialization FAILED [ 52%]
+tests/test_rag_system.py::TestRAGSystemIntegration::test_rag_system_config_values ERROR [ 53%]
+tests/test_search_tools.py::TestCourseSearchTool::test_basic_search PASSED [ 54%]
+tests/test_search_tools.py::TestCourseSearchTool::test_basic_search_returns_content PASSED [ 55%]
+tests/test_search_tools.py::TestCourseSearchTool::test_basic_search_case_insensitive PASSED [ 56%]
+tests/test_search_tools.py::TestCourseSearchTool::test_search_with_course_filter_exact PASSED [ 58%]
+tests/test_search_tools.py::TestCourseSearchTool::test_search_with_course_filter_partial PASSED [ 59%]
+tests/test_search_tools.py::TestCourseSearchTool::test_search_with_invalid_course FAILED [ 60%]
+tests/test_search_tools.py::TestCourseSearchTool::test_search_with_lesson_filter PASSED [ 61%]
+tests/test_search_tools.py::TestCourseSearchTool::test_search_with_nonexistent_lesson PASSED [ 62%]
+tests/test_search_tools.py::TestCourseSearchTool::test_search_with_combined_filters PASSED [ 63%]
+tests/test_search_tools.py::TestCourseSearchTool::test_search_with_invalid_course_valid_lesson FAILED [ 65%]
+tests/test_search_tools.py::TestCourseSearchTool::test_output_format_with_headers PASSED [ 66%]
+tests/test_search_tools.py::TestCourseSearchTool::test_output_format_multiple_chunks PASSED [ 67%]
+tests/test_search_tools.py::TestCourseSearchTool::test_output_format_without_lesson_number FAILED [ 68%]
+tests/test_search_tools.py::TestCourseSearchTool::test_source_tracking_populated PASSED [ 69%]
+tests/test_search_tools.py::TestCourseSearchTool::test_source_tracking_with_urls PASSED [ 70%]
+tests/test_search_tools.py::TestCourseSearchTool::test_source_deduplication PASSED [ 72%]
+tests/test_search_tools.py::TestCourseSearchTool::test_sources_reset_on_new_search PASSED [ 73%]
+tests/test_search_tools.py::TestCourseSearchTool::test_search_empty_query PASSED [ 74%]
+tests/test_search_tools.py::TestCourseSearchTool::test_search_no_matches FAILED [ 75%]
+tests/test_search_tools.py::TestCourseSearchTool::test_search_with_special_characters PASSED [ 76%]
+tests/test_search_tools.py::TestCourseSearchTool::test_search_with_unicode PASSED [ 77%]
+tests/test_search_tools.py::TestCourseSearchTool::test_vector_store_error_handling FAILED [ 79%]
+tests/test_search_tools.py::TestCourseSearchTool::test_tool_definition_structure PASSED [ 80%]
+tests/test_search_tools.py::TestCourseOutlineTool::test_get_outline_with_valid_course PASSED [ 81%]
+tests/test_search_tools.py::TestCourseOutlineTool::test_get_outline_with_partial_title PASSED [ 82%]
+tests/test_search_tools.py::TestCourseOutlineTool::test_get_outline_nonexistent_course FAILED [ 83%]
+tests/test_search_tools.py::TestCourseOutlineTool::test_outline_includes_all_lessons PASSED [ 84%]
+tests/test_search_tools.py::TestCourseOutlineTool::test_outline_includes_course_link PASSED [ 86%]
+tests/test_search_tools.py::TestCourseOutlineTool::test_outline_includes_lesson_count PASSED [ 87%]
+tests/test_search_tools.py::TestCourseOutlineTool::test_outline_tool_definition PASSED [ 88%]
+tests/test_search_tools.py::TestToolManager::test_register_tool PASSED   [ 89%]
+tests/test_search_tools.py::TestToolManager::test_register_multiple_tools PASSED [ 90%]
+tests/test_search_tools.py::TestToolManager::test_register_tool_without_name PASSED [ 91%]
+tests/test_search_tools.py::TestToolManager::test_execute_tool_success PASSED [ 93%]
+tests/test_search_tools.py::TestToolManager::test_execute_tool_not_found PASSED [ 94%]
+tests/test_search_tools.py::TestToolManager::test_execute_tool_with_parameters PASSED [ 95%]
+tests/test_search_tools.py::TestToolManager::test_get_last_sources PASSED [ 96%]
+tests/test_search_tools.py::TestToolManager::test_get_last_sources_no_search PASSED [ 97%]
+tests/test_search_tools.py::TestToolManager::test_reset_sources PASSED   [ 98%]
+tests/test_search_tools.py::TestToolManager::test_get_tool_definitions_format PASSED [100%]
+
+==================================== ERRORS ====================================
+_ ERROR at setup of TestRAGSystemIntegration.test_query_with_content_question __
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+_ ERROR at setup of TestRAGSystemIntegration.test_query_with_outline_question __
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+_ ERROR at setup of TestRAGSystemIntegration.test_query_with_general_question __
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+____ ERROR at setup of TestRAGSystemIntegration.test_query_with_session_id _____
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+___ ERROR at setup of TestRAGSystemIntegration.test_query_without_session_id ___
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+_ ERROR at setup of TestRAGSystemIntegration.test_vector_store_data_persistence _
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+_ ERROR at setup of TestRAGSystemIntegration.test_vector_store_retrieval_accuracy _
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+_ ERROR at setup of TestRAGSystemIntegration.test_vector_store_filter_retrieval _
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+___ ERROR at setup of TestRAGSystemIntegration.test_tools_registered_on_init ___
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+__ ERROR at setup of TestRAGSystemIntegration.test_tool_execution_through_rag __
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+___ ERROR at setup of TestRAGSystemIntegration.test_tool_definitions_format ____
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+_____ ERROR at setup of TestRAGSystemIntegration.test_sources_are_captured _____
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+_____ ERROR at setup of TestRAGSystemIntegration.test_sources_include_urls _____
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+_ ERROR at setup of TestRAGSystemIntegration.test_sources_are_reset_after_query _
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+____ ERROR at setup of TestRAGSystemIntegration.test_sources_content_format ____
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+_ ERROR at setup of TestRAGSystemIntegration.test_conversation_history_tracking _
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+__ ERROR at setup of TestRAGSystemIntegration.test_conversation_history_limit __
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+__ ERROR at setup of TestRAGSystemIntegration.test_separate_session_histories __
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+_ ERROR at setup of TestRAGSystemIntegration.test_empty_vector_store_handling __
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+_ ERROR at setup of TestRAGSystemIntegration.test_query_with_invalid_session_id _
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+_____ ERROR at setup of TestRAGSystemIntegration.test_api_failure_handling _____
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+___ ERROR at setup of TestRAGSystemIntegration.test_malformed_query_handling ___
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+_____ ERROR at setup of TestRAGSystemIntegration.test_get_course_analytics _____
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+__ ERROR at setup of TestRAGSystemIntegration.test_add_single_course_document __
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+_ ERROR at setup of TestRAGSystemIntegration.test_full_integration_with_ai_generator _
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+_____ ERROR at setup of TestRAGSystemIntegration.test_query_prompt_format ______
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+___ ERROR at setup of TestRAGSystemIntegration.test_rag_system_config_values ___
+tests/conftest.py:296: in mock_rag_system
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+=================================== FAILURES ===================================
+___________ TestRAGSystemIntegration.test_rag_system_initialization ____________
+tests/test_rag_system.py:416: in test_rag_system_initialization
+    with patch('rag_system.ZhipuAI'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1467: in get_original
+    raise AttributeError(
+E   AttributeError: <module 'rag_system' from '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/rag_system.py'> does not have the attribute 'ZhipuAI'
+_____________ TestCourseSearchTool.test_search_with_invalid_course _____________
+tests/test_search_tools.py:92: in test_search_with_invalid_course
+    assert "No course found" in result or "not found" in result.lower()
+E   AssertionError: assert ('No course found' in '[Model Context Protocol (MCP) Introduction - Lesson 1]\nMCP is a protocol for connecting AI assistants to external data sources. It enables context-aware interactions.\n\n[Model Context Protocol (MCP) Introduction - Lesson 2]\nMCP tools can be configured with parameters. The AI decides when to invoke each tool based on user queries.\n\n[Model Context Protocol (MCP) Introduction - Lesson 2]\nTo set up an MCP server, you need to define tools that the AI can use. Tools are functions that perform specific actions.\n\n[Model Context Protocol (MCP) Introduction - Lesson 3]\nResources in MCP include data connections and file access. Proper resource management is essential for security.' or 'not found' in '[model context protocol (mcp) introduction - lesson 1]\nmcp is a protocol for connecting ai assistants to external data sources. it enables context-aware interactions.\n\n[model context protocol (mcp) introduction - lesson 2]\nmcp tools can be configured with parameters. the ai decides when to invoke each tool based on user queries.\n\n[model context protocol (mcp) introduction - lesson 2]\nto set up an mcp server, you need to define tools that the ai can use. tools are functions that perform specific actions.\n\n[model context protocol (mcp) introduction - lesson 3]\nresources in mcp include data connections and file access. proper resource management is essential for security.')
+E    +  where '[model context protocol (mcp) introduction - lesson 1]\nmcp is a protocol for connecting ai assistants to external data sources. it enables context-aware interactions.\n\n[model context protocol (mcp) introduction - lesson 2]\nmcp tools can be configured with parameters. the ai decides when to invoke each tool based on user queries.\n\n[model context protocol (mcp) introduction - lesson 2]\nto set up an mcp server, you need to define tools that the ai can use. tools are functions that perform specific actions.\n\n[model context protocol (mcp) introduction - lesson 3]\nresources in mcp include data connections and file access. proper resource management is essential for security.' = <built-in method lower of str object at 0xb4b37f000>()
+E    +    where <built-in method lower of str object at 0xb4b37f000> = '[Model Context Protocol (MCP) Introduction - Lesson 1]\nMCP is a protocol for connecting AI assistants to external data sources. It enables context-aware interactions.\n\n[Model Context Protocol (MCP) Introduction - Lesson 2]\nMCP tools can be configured with parameters. The AI decides when to invoke each tool based on user queries.\n\n[Model Context Protocol (MCP) Introduction - Lesson 2]\nTo set up an MCP server, you need to define tools that the AI can use. Tools are functions that perform specific actions.\n\n[Model Context Protocol (MCP) Introduction - Lesson 3]\nResources in MCP include data connections and file access. Proper resource management is essential for security.'.lower
+______ TestCourseSearchTool.test_search_with_invalid_course_valid_lesson _______
+tests/test_search_tools.py:155: in test_search_with_invalid_course_valid_lesson
+    assert "No course found" in result
+E   AssertionError: assert 'No course found' in '[Model Context Protocol (MCP) Introduction - Lesson 1]\nMCP is a protocol for connecting AI assistants to external data sources. It enables context-aware interactions.'
+________ TestCourseSearchTool.test_output_format_without_lesson_number _________
+tests/test_search_tools.py:193: in test_output_format_without_lesson_number
+    mock_vector_store.add_course_content([chunk])
+vector_store.py:177: in add_course_content
+    self.course_content.add(
+../.venv/lib/python3.13/site-packages/chromadb/api/models/Collection.py:89: in add
+    self._client._add(
+../.venv/lib/python3.13/site-packages/chromadb/api/rust.py:407: in _add
+    return self.bindings.add(
+E   TypeError: argument 'metadatas': failed to extract enum MetadataValue ('Bool | Int | Float | Str')
+E   - variant Bool (Bool): TypeError: failed to extract field MetadataValue::Bool.0, caused by TypeError: 'NoneType' object cannot be converted to 'PyBool'
+E   - variant Int (Int): TypeError: failed to extract field MetadataValue::Int.0, caused by TypeError: 'NoneType' object cannot be interpreted as an integer
+E   - variant Float (Float): TypeError: failed to extract field MetadataValue::Float.0, caused by TypeError: must be real number, not NoneType
+E   - variant Str (Str): TypeError: failed to extract field MetadataValue::Str.0, caused by TypeError: 'NoneType' object cannot be converted to 'PyString'
+_________________ TestCourseSearchTool.test_search_no_matches __________________
+tests/test_search_tools.py:295: in test_search_no_matches
+    assert "No relevant content found" in result or len(result) == 0
+E   AssertionError: assert ('No relevant content found' in '[Model Context Protocol (MCP) Introduction - Lesson 1]\nMCP is a protocol for connecting AI assistants to external data sources. It enables context-aware interactions.\n\n[Model Context Protocol (MCP) Introduction - Lesson 2]\nTo set up an MCP server, you need to define tools that the AI can use. Tools are functions that perform specific actions.\n\n[Model Context Protocol (MCP) Introduction - Lesson 2]\nMCP tools can be configured with parameters. The AI decides when to invoke each tool based on user queries.\n\n[Model Context Protocol (MCP) Introduction - Lesson 3]\nResources in MCP include data connections and file access. Proper resource management is essential for security.' or 677 == 0)
+E    +  where 677 = len('[Model Context Protocol (MCP) Introduction - Lesson 1]\nMCP is a protocol for connecting AI assistants to external data sources. It enables context-aware interactions.\n\n[Model Context Protocol (MCP) Introduction - Lesson 2]\nTo set up an MCP server, you need to define tools that the AI can use. Tools are functions that perform specific actions.\n\n[Model Context Protocol (MCP) Introduction - Lesson 2]\nMCP tools can be configured with parameters. The AI decides when to invoke each tool based on user queries.\n\n[Model Context Protocol (MCP) Introduction - Lesson 3]\nResources in MCP include data connections and file access. Proper resource management is essential for security.')
+____________ TestCourseSearchTool.test_vector_store_error_handling _____________
+tests/test_search_tools.py:321: in test_vector_store_error_handling
+    result = tool.execute(query="test")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+search_tools.py:66: in execute
+    results = self.store.search(
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1169: in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1173: in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/Users/ws/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/unittest/mock.py:1228: in _execute_mock_call
+    raise effect
+E   Exception: DB Error
+__________ TestCourseOutlineTool.test_get_outline_nonexistent_course ___________
+tests/test_search_tools.py:393: in test_get_outline_nonexistent_course
+    assert "No course found" in result
+E   AssertionError: assert 'No course found' in 'Course: Model Context Protocol (MCP) Introduction\nInstructor: John Doe\nCourse Link: https://example.com/mcp-course\n\nTotal Lessons: 3\n\nLessons:\n  Lesson 1: Introduction to MCP\n  Lesson 2: Setting Up MCP Server\n  Lesson 3: MCP Tools and Resources'
+=========================== short test summary info ============================
+FAILED tests/test_rag_system.py::TestRAGSystemIntegration::test_rag_system_initialization
+FAILED tests/test_search_tools.py::TestCourseSearchTool::test_search_with_invalid_course
+FAILED tests/test_search_tools.py::TestCourseSearchTool::test_search_with_invalid_course_valid_lesson
+FAILED tests/test_search_tools.py::TestCourseSearchTool::test_output_format_without_lesson_number
+FAILED tests/test_search_tools.py::TestCourseSearchTool::test_search_no_matches
+FAILED tests/test_search_tools.py::TestCourseSearchTool::test_vector_store_error_handling
+FAILED tests/test_search_tools.py::TestCourseOutlineTool::test_get_outline_nonexistent_course
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_query_with_content_question
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_query_with_outline_question
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_query_with_general_question
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_query_with_session_id
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_query_without_session_id
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_vector_store_data_persistence
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_vector_store_retrieval_accuracy
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_vector_store_filter_retrieval
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_tools_registered_on_init
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_tool_execution_through_rag
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_tool_definitions_format
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_sources_are_captured
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_sources_include_urls
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_sources_are_reset_after_query
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_sources_content_format
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_conversation_history_tracking
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_conversation_history_limit
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_separate_session_histories
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_empty_vector_store_handling
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_query_with_invalid_session_id
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_api_failure_handling
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_malformed_query_handling
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_get_course_analytics
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_add_single_course_document
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_full_integration_with_ai_generator
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_query_prompt_format
+ERROR tests/test_rag_system.py::TestRAGSystemIntegration::test_rag_system_config_values
+=================== 7 failed, 52 passed, 27 errors in 12.22s ===================

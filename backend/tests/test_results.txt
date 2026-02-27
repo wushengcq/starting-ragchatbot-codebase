@@ -1,0 +1,6 @@
+ImportError while loading conftest '/Users/ws/Temp/claude_tutorial/starting-ragchatbot-codebase/backend/tests/conftest.py'.
+tests/conftest.py:15: in <module>
+    from vector_store import VectorStore, SearchResults
+vector_store.py:1: in <module>
+    import chromadb
+E   ModuleNotFoundError: No module named 'chromadb'
