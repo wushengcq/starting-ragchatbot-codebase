@@ -1,9 +1,10 @@
+# pylint: disable=unused-import
 """Comprehensive tests for CourseSearchTool and CourseOutlineTool"""
 
+from unittest.mock import Mock, patch
+
 import pytest
-from unittest.mock import Mock, patch, MagicMock
-from search_tools import CourseSearchTool, CourseOutlineTool, ToolManager
-from vector_store import SearchResults
+from search_tools import CourseOutlineTool, CourseSearchTool, ToolManager
 
 
 class TestCourseSearchTool:
@@ -56,10 +57,7 @@ class TestCourseSearchTool:
         """Test with exact course name filter"""
         tool = CourseSearchTool(populated_vector_store)
 
-        result = tool.execute(
-            query="protocol",
-            course_name=sample_course.title
-        )
+        result = tool.execute(query="protocol", course_name=sample_course.title)
 
         assert isinstance(result, str)
         assert len(result) > 0
@@ -70,10 +68,7 @@ class TestCourseSearchTool:
         tool = CourseSearchTool(populated_vector_store)
 
         # Use partial name "MCP" instead of full title
-        result = tool.execute(
-            query="protocol",
-            course_name="MCP"
-        )
+        result = tool.execute(query="protocol", course_name="MCP")
 
         assert isinstance(result, str)
         assert len(result) > 0
@@ -82,10 +77,7 @@ class TestCourseSearchTool:
         """Test with non-existent course name"""
         tool = CourseSearchTool(populated_vector_store)
 
-        result = tool.execute(
-            query="something",
-            course_name="NonExistentCourse123"
-        )
+        result = tool.execute(query="something", course_name="NonExistentCourse123")
 
         # Should return error message
         assert isinstance(result, str)
@@ -99,10 +91,7 @@ class TestCourseSearchTool:
         """Test with lesson number filter"""
         tool = CourseSearchTool(populated_vector_store)
 
-        result = tool.execute(
-            query="MCP",
-            lesson_number=1
-        )
+        result = tool.execute(query="MCP", lesson_number=1)
 
         assert isinstance(result, str)
         assert len(result) > 0
@@ -112,10 +101,7 @@ class TestCourseSearchTool:
         """Test with lesson number that doesn't exist"""
         tool = CourseSearchTool(populated_vector_store)
 
-        result = tool.execute(
-            query="MCP",
-            lesson_number=999
-        )
+        result = tool.execute(query="MCP", lesson_number=999)
 
         # Should return no results message
         assert isinstance(result, str)
@@ -129,11 +115,7 @@ class TestCourseSearchTool:
         """Test with both course_name and lesson_number"""
         tool = CourseSearchTool(populated_vector_store)
 
-        result = tool.execute(
-            query="protocol",
-            course_name=sample_course.title,
-            lesson_number=1
-        )
+        result = tool.execute(query="protocol", course_name=sample_course.title, lesson_number=1)
 
         assert isinstance(result, str)
         assert len(result) > 0
@@ -144,11 +126,7 @@ class TestCourseSearchTool:
         """Test with invalid course but valid lesson number"""
         tool = CourseSearchTool(populated_vector_store)
 
-        result = tool.execute(
-            query="something",
-            course_name="InvalidCourse",
-            lesson_number=1
-        )
+        result = tool.execute(query="something", course_name="InvalidCourse", lesson_number=1)
 
         # Should fail on course validation first
         assert isinstance(result, str)
@@ -184,21 +162,19 @@ class TestCourseSearchTool:
 
         # Add a chunk without lesson number
         from models import CourseChunk
+
         chunk = CourseChunk(
             content="Test content without lesson",
             course_title="Test Course",
             lesson_number=None,
-            chunk_index=0
+            chunk_index=0,
         )
         mock_vector_store.add_course_content([chunk])
 
         # Also need to add course metadata for resolution
-        from models import Course, Lesson
-        course = Course(
-            title="Test Course",
-            instructor="Test Instructor",
-            lessons=[]
-        )
+        from models import Course
+
+        course = Course(title="Test Course", instructor="Test Instructor", lessons=[])
         mock_vector_store.add_course_metadata(course)
 
         result = tool.execute(query="test content")
@@ -218,7 +194,7 @@ class TestCourseSearchTool:
         tool.execute(query="MCP protocol")
 
         # Check that last_sources was populated
-        assert hasattr(tool, 'last_sources')
+        assert hasattr(tool, "last_sources")
         assert len(tool.last_sources) > 0
 
         # Check source structure
@@ -262,7 +238,7 @@ class TestCourseSearchTool:
 
         # First search
         tool.execute(query="protocol")
-        first_sources = tool.last_sources.copy()
+        _first_sources = tool.last_sources.copy()  # noqa: F841
 
         # Second search with different query
         tool.execute(query="tools")
@@ -317,7 +293,7 @@ class TestCourseSearchTool:
         tool = CourseSearchTool(mock_vector_store)
 
         # Mock the search method to raise an exception
-        with patch.object(mock_vector_store, 'search', side_effect=Exception("DB Error")):
+        with patch.object(mock_vector_store, "search", side_effect=Exception("DB Error")):
             result = tool.execute(query="test")
 
             # Should return error message
@@ -482,10 +458,7 @@ class TestToolManager:
 
     def test_execute_tool_success(self, tool_manager, populated_vector_store):
         """Test successful tool execution"""
-        result = tool_manager.execute_tool(
-            "search_course_content",
-            query="MCP protocol"
-        )
+        result = tool_manager.execute_tool("search_course_content", query="MCP protocol")
 
         assert isinstance(result, str)
         assert len(result) > 0
@@ -499,10 +472,7 @@ class TestToolManager:
     def test_execute_tool_with_parameters(self, tool_manager, populated_vector_store):
         """Test tool execution with multiple parameters"""
         result = tool_manager.execute_tool(
-            "search_course_content",
-            query="protocol",
-            course_name="MCP",
-            lesson_number=1
+            "search_course_content", query="protocol", course_name="MCP", lesson_number=1
         )
 
         assert isinstance(result, str)

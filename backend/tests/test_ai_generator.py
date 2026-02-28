@@ -1,9 +1,9 @@
 """Comprehensive tests for AIGenerator tool calling functionality"""
 
+from unittest.mock import MagicMock
+
 import pytest
-from unittest.mock import Mock, MagicMock, patch, call
 from ai_generator import AIGenerator
-import json
 
 
 class TestAIGeneratorToolCalling:
@@ -22,11 +22,9 @@ class TestAIGeneratorToolCalling:
             "description": "Search course materials",
             "input_schema": {
                 "type": "object",
-                "properties": {
-                    "query": {"type": "string"}
-                },
-                "required": ["query"]
-            }
+                "properties": {"query": {"type": "string"}},
+                "required": ["query"],
+            },
         }
 
         glm_tools = generator._convert_tools_to_glm_format([anthropic_tool])
@@ -50,23 +48,19 @@ class TestAIGeneratorToolCalling:
                 "description": "Search course materials",
                 "input_schema": {
                     "type": "object",
-                    "properties": {
-                        "query": {"type": "string"}
-                    },
-                    "required": ["query"]
-                }
+                    "properties": {"query": {"type": "string"}},
+                    "required": ["query"],
+                },
             },
             {
                 "name": "get_course_outline",
                 "description": "Get course outline",
                 "input_schema": {
                     "type": "object",
-                    "properties": {
-                        "course_title": {"type": "string"}
-                    },
-                    "required": ["course_title"]
-                }
-            }
+                    "properties": {"course_title": {"type": "string"}},
+                    "required": ["course_title"],
+                },
+            },
         ]
 
         glm_tools = generator._convert_tools_to_glm_format(anthropic_tools)
@@ -86,10 +80,10 @@ class TestAIGeneratorToolCalling:
                 "type": "object",
                 "properties": {
                     "param1": {"type": "string", "description": "First param"},
-                    "param2": {"type": "integer", "description": "Second param"}
+                    "param2": {"type": "integer", "description": "Second param"},
                 },
-                "required": ["param1"]
-            }
+                "required": ["param1"],
+            },
         }
 
         glm_tools = generator._convert_tools_to_glm_format([anthropic_tool])
@@ -121,7 +115,9 @@ class TestAIGeneratorToolCalling:
         # Mock second response (after tool execution) - no more tool calls
         mock_final_response = MagicMock()
         mock_final_response.choices = [MagicMock()]
-        mock_final_response.choices[0].message.content = "Based on the search results, MCP protocol is..."
+        mock_final_response.choices[
+            0
+        ].message.content = "Based on the search results, MCP protocol is..."
         mock_final_response.choices[0].message.tool_calls = None
 
         mock_ai_generator.client.chat.completions.create = MagicMock(
@@ -133,20 +129,21 @@ class TestAIGeneratorToolCalling:
         mock_tool_manager.execute_tool.return_value = "MCP protocol is a communication standard..."
 
         # Execute
-        result = mock_ai_generator.generate_response(
+        _ = mock_ai_generator.generate_response(
             query="What is MCP protocol?",
-            tools=[{
-                "name": "search_course_content",
-                "description": "Search course materials",
-                "input_schema": {"type": "object", "properties": {}, "required": []}
-            }],
-            tool_manager=mock_tool_manager
+            tools=[
+                {
+                    "name": "search_course_content",
+                    "description": "Search course materials",
+                    "input_schema": {"type": "object", "properties": {}, "required": []},
+                }
+            ],
+            tool_manager=mock_tool_manager,
         )
 
         # Verify tool was executed
         mock_tool_manager.execute_tool.assert_called_once_with(
-            "search_course_content",
-            query="What is MCP protocol?"
+            "search_course_content", query="What is MCP protocol?"
         )
 
     def test_invokes_outline_tool_for_structure_question(self, mock_ai_generator):
@@ -173,19 +170,20 @@ class TestAIGeneratorToolCalling:
         mock_tool_manager = MagicMock()
         mock_tool_manager.execute_tool.return_value = "Course: MCP\nLessons: 1, 2, 3"
 
-        result = mock_ai_generator.generate_response(
+        _ = mock_ai_generator.generate_response(
             query="What lessons are in the MCP course?",
-            tools=[{
-                "name": "get_course_outline",
-                "description": "Get course outline",
-                "input_schema": {"type": "object", "properties": {}, "required": []}
-            }],
-            tool_manager=mock_tool_manager
+            tools=[
+                {
+                    "name": "get_course_outline",
+                    "description": "Get course outline",
+                    "input_schema": {"type": "object", "properties": {}, "required": []},
+                }
+            ],
+            tool_manager=mock_tool_manager,
         )
 
         mock_tool_manager.execute_tool.assert_called_once_with(
-            "get_course_outline",
-            course_title="MCP"
+            "get_course_outline", course_title="MCP"
         )
 
     def test_does_not_invoke_tool_for_general_question(self, mock_ai_generator):
@@ -202,12 +200,14 @@ class TestAIGeneratorToolCalling:
 
         result = mock_ai_generator.generate_response(
             query="What is the capital of France?",
-            tools=[{
-                "name": "search_course_content",
-                "description": "Search course materials",
-                "input_schema": {"type": "object", "properties": {}, "required": []}
-            }],
-            tool_manager=mock_tool_manager
+            tools=[
+                {
+                    "name": "search_course_content",
+                    "description": "Search course materials",
+                    "input_schema": {"type": "object", "properties": {}, "required": []},
+                }
+            ],
+            tool_manager=mock_tool_manager,
         )
 
         # Tool manager should not be called
@@ -244,18 +244,19 @@ class TestAIGeneratorToolCalling:
 
         mock_ai_generator.generate_response(
             query="test query",
-            tools=[{
-                "name": "search_course_content",
-                "description": "Search",
-                "input_schema": {"type": "object", "properties": {}, "required": []}
-            }],
-            tool_manager=mock_tool_manager
+            tools=[
+                {
+                    "name": "search_course_content",
+                    "description": "Search",
+                    "input_schema": {"type": "object", "properties": {}, "required": []},
+                }
+            ],
+            tool_manager=mock_tool_manager,
         )
 
         # Verify parameters passed correctly
         mock_tool_manager.execute_tool.assert_called_once_with(
-            "search_course_content",
-            query="test query"
+            "search_course_content", query="test query"
         )
 
     def test_passes_correct_parameters_with_filters(self, mock_ai_generator):
@@ -267,7 +268,9 @@ class TestAIGeneratorToolCalling:
         mock_tool_call.id = "call_101"
         mock_tool_call.type = "function"
         mock_tool_call.function.name = "search_course_content"
-        mock_tool_call.function.arguments = '{"query": "protocol", "course_name": "MCP", "lesson_number": 2}'
+        mock_tool_call.function.arguments = (
+            '{"query": "protocol", "course_name": "MCP", "lesson_number": 2}'
+        )
         mock_response.choices[0].message.tool_calls = [mock_tool_call]
 
         mock_final_response = MagicMock()
@@ -284,20 +287,19 @@ class TestAIGeneratorToolCalling:
 
         mock_ai_generator.generate_response(
             query="Tell me about protocol in lesson 2",
-            tools=[{
-                "name": "search_course_content",
-                "description": "Search",
-                "input_schema": {"type": "object", "properties": {}, "required": []}
-            }],
-            tool_manager=mock_tool_manager
+            tools=[
+                {
+                    "name": "search_course_content",
+                    "description": "Search",
+                    "input_schema": {"type": "object", "properties": {}, "required": []},
+                }
+            ],
+            tool_manager=mock_tool_manager,
         )
 
         # Verify all parameters were passed
         mock_tool_manager.execute_tool.assert_called_once_with(
-            "search_course_content",
-            query="protocol",
-            course_name="MCP",
-            lesson_number=2
+            "search_course_content", query="protocol", course_name="MCP", lesson_number=2
         )
 
     def test_passes_correct_parameters_outline(self, mock_ai_generator):
@@ -326,17 +328,18 @@ class TestAIGeneratorToolCalling:
 
         mock_ai_generator.generate_response(
             query="What's in the RAG course?",
-            tools=[{
-                "name": "get_course_outline",
-                "description": "Get outline",
-                "input_schema": {"type": "object", "properties": {}, "required": []}
-            }],
-            tool_manager=mock_tool_manager
+            tools=[
+                {
+                    "name": "get_course_outline",
+                    "description": "Get outline",
+                    "input_schema": {"type": "object", "properties": {}, "required": []},
+                }
+            ],
+            tool_manager=mock_tool_manager,
         )
 
         mock_tool_manager.execute_tool.assert_called_once_with(
-            "get_course_outline",
-            course_title="Introduction to RAG"
+            "get_course_outline", course_title="Introduction to RAG"
         )
 
     # ========================================================================
@@ -369,18 +372,19 @@ class TestAIGeneratorToolCalling:
 
         mock_tool_manager = MagicMock()
         mock_tool_manager.execute_tool.return_value = (
-            "[Model Context Protocol - Lesson 1]\n"
-            "MCP is a protocol for AI assistants."
+            "[Model Context Protocol - Lesson 1]\n" "MCP is a protocol for AI assistants."
         )
 
         result = mock_ai_generator.generate_response(
             query="What is MCP?",
-            tools=[{
-                "name": "search_course_content",
-                "description": "Search",
-                "input_schema": {"type": "object", "properties": {}, "required": []}
-            }],
-            tool_manager=mock_tool_manager
+            tools=[
+                {
+                    "name": "search_course_content",
+                    "description": "Search",
+                    "input_schema": {"type": "object", "properties": {}, "required": []},
+                }
+            ],
+            tool_manager=mock_tool_manager,
         )
 
         # Should return the final AI response that incorporates tool results
@@ -401,7 +405,11 @@ class TestAIGeneratorToolCalling:
 
         mock_final_response = MagicMock()
         mock_final_response.choices = [MagicMock()]
-        mock_final_response.choices[0].message.content = "I couldn't find any information about that topic in the course materials."
+        mock_final_response.choices[
+            0
+        ].message.content = (
+            "I couldn't find any information about that topic in the course materials."
+        )
         mock_final_response.choices[0].message.tool_calls = None
 
         mock_ai_generator.client.chat.completions.create = MagicMock(
@@ -413,12 +421,14 @@ class TestAIGeneratorToolCalling:
 
         result = mock_ai_generator.generate_response(
             query="Tell me about nonexistent topic",
-            tools=[{
-                "name": "search_course_content",
-                "description": "Search",
-                "input_schema": {"type": "object", "properties": {}, "required": []}
-            }],
-            tool_manager=mock_tool_manager
+            tools=[
+                {
+                    "name": "search_course_content",
+                    "description": "Search",
+                    "input_schema": {"type": "object", "properties": {}, "required": []},
+                }
+            ],
+            tool_manager=mock_tool_manager,
         )
 
         assert "couldn't find" in result.lower() or "no information" in result.lower()
@@ -441,7 +451,9 @@ class TestAIGeneratorToolCalling:
 
         mock_final_response = MagicMock()
         mock_final_response.choices = [MagicMock()]
-        mock_final_response.choices[0].message.content = "I encountered an error searching the course materials."
+        mock_final_response.choices[
+            0
+        ].message.content = "I encountered an error searching the course materials."
         mock_final_response.choices[0].message.tool_calls = None
 
         mock_ai_generator.client.chat.completions.create = MagicMock(
@@ -453,12 +465,14 @@ class TestAIGeneratorToolCalling:
 
         result = mock_ai_generator.generate_response(
             query="test query",
-            tools=[{
-                "name": "search_course_content",
-                "description": "Search",
-                "input_schema": {"type": "object", "properties": {}, "required": []}
-            }],
-            tool_manager=mock_tool_manager
+            tools=[
+                {
+                    "name": "search_course_content",
+                    "description": "Search",
+                    "input_schema": {"type": "object", "properties": {}, "required": []},
+                }
+            ],
+            tool_manager=mock_tool_manager,
         )
 
         # Should handle error gracefully
@@ -474,13 +488,15 @@ class TestAIGeneratorToolCalling:
         mock_tool_call.type = "function"
         mock_tool_call.function.name = "search_course_content"
         # Invalid JSON
-        mock_tool_call.function.arguments = '{invalid json}'
+        mock_tool_call.function.arguments = "{invalid json}"
         mock_response.choices[0].message.tool_calls = [mock_tool_call]
 
         # Final response explaining the error
         mock_final_response = MagicMock()
         mock_final_response.choices = [MagicMock()]
-        mock_final_response.choices[0].message.content = "I encountered an error processing the tool arguments."
+        mock_final_response.choices[
+            0
+        ].message.content = "I encountered an error processing the tool arguments."
         mock_final_response.choices[0].message.tool_calls = None
 
         mock_ai_generator.client.chat.completions.create = MagicMock(
@@ -492,12 +508,14 @@ class TestAIGeneratorToolCalling:
         # Should catch JSON error and handle gracefully
         result = mock_ai_generator.generate_response(
             query="test",
-            tools=[{
-                "name": "search_course_content",
-                "description": "Search",
-                "input_schema": {"type": "object", "properties": {}, "required": []}
-            }],
-            tool_manager=mock_tool_manager
+            tools=[
+                {
+                    "name": "search_course_content",
+                    "description": "Search",
+                    "input_schema": {"type": "object", "properties": {}, "required": []},
+                }
+            ],
+            tool_manager=mock_tool_manager,
         )
 
         # Should handle error gracefully, not raise exception
@@ -515,12 +533,14 @@ class TestAIGeneratorToolCalling:
         with pytest.raises(Exception, match="API Error"):
             mock_ai_generator.generate_response(
                 query="test query",
-                tools=[{
-                    "name": "search_course_content",
-                    "description": "Search",
-                    "input_schema": {"type": "object", "properties": {}, "required": []}
-                }],
-                tool_manager=mock_tool_manager
+                tools=[
+                    {
+                        "name": "search_course_content",
+                        "description": "Search",
+                        "input_schema": {"type": "object", "properties": {}, "required": []},
+                    }
+                ],
+                tool_manager=mock_tool_manager,
             )
 
     # ========================================================================
@@ -536,11 +556,11 @@ class TestAIGeneratorToolCalling:
 
         mock_ai_generator.client.chat.completions.create = MagicMock(return_value=mock_response)
 
-        result = mock_ai_generator.generate_response(
+        _ = mock_ai_generator.generate_response(
             query="Follow-up question",
             conversation_history="User: What is MCP?\nAI: MCP is a protocol.",
             tools=None,
-            tool_manager=None
+            tool_manager=None,
         )
 
         # Verify the API was called
@@ -548,13 +568,13 @@ class TestAIGeneratorToolCalling:
 
         # Check that history was included in the call
         call_args = mock_ai_generator.client.chat.completions.create.call_args
-        messages = call_args[1]['messages']
+        messages = call_args[1]["messages"]
 
         # Should have system and user messages
         assert len(messages) == 2
-        assert messages[0]['role'] == 'system'
-        assert "Previous conversation" in messages[0]['content']
-        assert "What is MCP?" in messages[0]['content']
+        assert messages[0]["role"] == "system"
+        assert "Previous conversation" in messages[0]["content"]
+        assert "What is MCP?" in messages[0]["content"]
 
     def test_without_conversation_history(self, mock_ai_generator):
         """Test that system prompt is correct without history"""
@@ -565,18 +585,15 @@ class TestAIGeneratorToolCalling:
 
         mock_ai_generator.client.chat.completions.create = MagicMock(return_value=mock_response)
 
-        result = mock_ai_generator.generate_response(
-            query="New question",
-            conversation_history=None,
-            tools=None,
-            tool_manager=None
+        _ = mock_ai_generator.generate_response(
+            query="New question", conversation_history=None, tools=None, tool_manager=None
         )
 
         call_args = mock_ai_generator.client.chat.completions.create.call_args
-        messages = call_args[1]['messages']
+        messages = call_args[1]["messages"]
 
         # System prompt should not include "Previous conversation"
-        assert "Previous conversation" not in messages[0]['content']
+        assert "Previous conversation" not in messages[0]["content"]
 
     # ========================================================================
     # System Prompt Tests
@@ -584,22 +601,23 @@ class TestAIGeneratorToolCalling:
 
     def test_system_prompt_structure(self, mock_ai_generator):
         """Test that system prompt has proper structure"""
-        assert hasattr(mock_ai_generator, 'SYSTEM_PROMPT')
+        assert hasattr(mock_ai_generator, "SYSTEM_PROMPT")
         assert len(mock_ai_generator.SYSTEM_PROMPT) > 0
         assert "AI assistant" in mock_ai_generator.SYSTEM_PROMPT
         assert "tool" in mock_ai_generator.SYSTEM_PROMPT.lower()
 
     def test_base_api_parameters(self, mock_ai_generator):
         """Test that base API parameters are set correctly"""
-        assert hasattr(mock_ai_generator, 'base_params')
-        assert mock_ai_generator.base_params['model'] == 'glm-5'
-        assert mock_ai_generator.base_params['temperature'] == 0
-        assert 'max_tokens' in mock_ai_generator.base_params
+        assert hasattr(mock_ai_generator, "base_params")
+        assert mock_ai_generator.base_params["model"] == "glm-5"
+        assert mock_ai_generator.base_params["temperature"] == 0
+        assert "max_tokens" in mock_ai_generator.base_params
 
 
 # ============================================================================
 # Sequential Tool Calling Tests
 # ============================================================================
+
 
 class TestSequentialToolCalling:
     """Test suite for sequential multi-round tool calling functionality"""
@@ -615,12 +633,14 @@ class TestSequentialToolCalling:
 
         result = mock_ai_generator.generate_response(
             query="What is the capital of France?",
-            tools=[{
-                "name": "search_course_content",
-                "description": "Search course materials",
-                "input_schema": {"type": "object", "properties": {}, "required": []}
-            }],
-            tool_manager=MagicMock()
+            tools=[
+                {
+                    "name": "search_course_content",
+                    "description": "Search course materials",
+                    "input_schema": {"type": "object", "properties": {}, "required": []},
+                }
+            ],
+            tool_manager=MagicMock(),
         )
 
         # Should return direct text without any tool calls
@@ -643,7 +663,9 @@ class TestSequentialToolCalling:
         # Round 2: Model returns text without calling another tool
         mock_response_2 = MagicMock()
         mock_response_2.choices = [MagicMock()]
-        mock_response_2.choices[0].message.content = "MCP protocol is a communication standard for AI assistants."
+        mock_response_2.choices[
+            0
+        ].message.content = "MCP protocol is a communication standard for AI assistants."
         mock_response_2.choices[0].message.tool_calls = None
 
         mock_ai_generator.client.chat.completions.create = MagicMock(
@@ -651,20 +673,26 @@ class TestSequentialToolCalling:
         )
 
         mock_tool_manager = MagicMock()
-        mock_tool_manager.execute_tool.return_value = "MCP protocol enables AI assistants to connect to external data."
+        mock_tool_manager.execute_tool.return_value = (
+            "MCP protocol enables AI assistants to connect to external data."
+        )
 
         result = mock_ai_generator.generate_response(
             query="What is MCP protocol?",
-            tools=[{
-                "name": "search_course_content",
-                "description": "Search course materials",
-                "input_schema": {"type": "object", "properties": {}, "required": []}
-            }],
-            tool_manager=mock_tool_manager
+            tools=[
+                {
+                    "name": "search_course_content",
+                    "description": "Search course materials",
+                    "input_schema": {"type": "object", "properties": {}, "required": []},
+                }
+            ],
+            tool_manager=mock_tool_manager,
         )
 
         # Should execute tool once and return final answer
-        mock_tool_manager.execute_tool.assert_called_once_with("search_course_content", query="MCP protocol")
+        mock_tool_manager.execute_tool.assert_called_once_with(
+            "search_course_content", query="MCP protocol"
+        )
         assert "MCP protocol" in result
 
     def test_two_rounds_with_tools(self, mock_ai_generator):
@@ -688,7 +716,9 @@ class TestSequentialToolCalling:
         mock_tool_call_2.id = "call_2"
         mock_tool_call_2.type = "function"
         mock_tool_call_2.function.name = "search_course_content"
-        mock_tool_call_2.function.arguments = '{"query": "Tools and Resources", "course_name": "MCP"}'
+        mock_tool_call_2.function.arguments = (
+            '{"query": "Tools and Resources", "course_name": "MCP"}'
+        )
         mock_response_2.choices[0].message.tool_calls = [mock_tool_call_2]
 
         # Final: Model synthesizes answer
@@ -707,9 +737,15 @@ class TestSequentialToolCalling:
         mock_tool_manager = MagicMock()
         mock_tool_manager.execute_tool.side_effect = [
             # First tool result: course outline
-            "Course: MCP Introduction\nLessons:\n  Lesson 1: Introduction\n  Lesson 2: Setup\n  Lesson 3: Tools and Resources",
+            (  # noqa: E501
+                "Course: MCP Introduction\nLessons:\n  Lesson 1: Introduction\n  "  # noqa: E501
+                "Lesson 2: Setup\n  Lesson 3: Tools and Resources"
+            ),
             # Second tool result: search content
-            "[MCP - Lesson 3]\nMCP tools can be configured with parameters. The AI decides when to invoke each tool."
+            (  # noqa: E501
+                "[MCP - Lesson 3]\nMCP tools can be configured with parameters. "  # noqa: E501
+                "The AI decides when to invoke each tool."
+            ),
         ]
 
         result = mock_ai_generator.generate_response(
@@ -718,24 +754,22 @@ class TestSequentialToolCalling:
                 {
                     "name": "get_course_outline",
                     "description": "Get course outline",
-                    "input_schema": {"type": "object", "properties": {}, "required": []}
+                    "input_schema": {"type": "object", "properties": {}, "required": []},
                 },
                 {
                     "name": "search_course_content",
                     "description": "Search course materials",
-                    "input_schema": {"type": "object", "properties": {}, "required": []}
-                }
+                    "input_schema": {"type": "object", "properties": {}, "required": []},
+                },
             ],
-            tool_manager=mock_tool_manager
+            tool_manager=mock_tool_manager,
         )
 
         # Should execute both tools
         assert mock_tool_manager.execute_tool.call_count == 2
         mock_tool_manager.execute_tool.assert_any_call("get_course_outline", course_title="MCP")
         mock_tool_manager.execute_tool.assert_any_call(
-            "search_course_content",
-            query="Tools and Resources",
-            course_name="MCP"
+            "search_course_content", query="Tools and Resources", course_name="MCP"
         )
         assert "Lesson 3" in result
 
@@ -766,7 +800,9 @@ class TestSequentialToolCalling:
         # Final: Should NOT have tools available (max rounds reached)
         mock_response_final = MagicMock()
         mock_response_final.choices = [MagicMock()]
-        mock_response_final.choices[0].message.content = "Synthesized answer after 2 rounds of tools."
+        mock_response_final.choices[
+            0
+        ].message.content = "Synthesized answer after 2 rounds of tools."
         mock_response_final.choices[0].message.tool_calls = None
 
         mock_ai_generator.client.chat.completions.create = MagicMock(
@@ -774,19 +810,18 @@ class TestSequentialToolCalling:
         )
 
         mock_tool_manager = MagicMock()
-        mock_tool_manager.execute_tool.side_effect = [
-            "First result",
-            "Second result"
-        ]
+        mock_tool_manager.execute_tool.side_effect = ["First result", "Second result"]
 
         result = mock_ai_generator.generate_response(
             query="Test max rounds",
-            tools=[{
-                "name": "search_course_content",
-                "description": "Search",
-                "input_schema": {"type": "object", "properties": {}, "required": []}
-            }],
-            tool_manager=mock_tool_manager
+            tools=[
+                {
+                    "name": "search_course_content",
+                    "description": "Search",
+                    "input_schema": {"type": "object", "properties": {}, "required": []},
+                }
+            ],
+            tool_manager=mock_tool_manager,
         )
 
         # Should make exactly 3 API calls: 2 with tools, 1 final without tools
@@ -815,20 +850,24 @@ class TestSequentialToolCalling:
         # Final response explaining error
         mock_error_response = MagicMock()
         mock_error_response.choices = [MagicMock()]
-        mock_error_response.choices[0].message.content = "I encountered an error searching the course materials."
+        mock_error_response.choices[
+            0
+        ].message.content = "I encountered an error searching the course materials."
         mock_ai_generator.client.chat.completions.create.side_effect = [
             mock_response,
-            mock_error_response
+            mock_error_response,
         ]
 
         result = mock_ai_generator.generate_response(
             query="test query",
-            tools=[{
-                "name": "search_course_content",
-                "description": "Search",
-                "input_schema": {"type": "object", "properties": {}, "required": []}
-            }],
-            tool_manager=mock_tool_manager
+            tools=[
+                {
+                    "name": "search_course_content",
+                    "description": "Search",
+                    "input_schema": {"type": "object", "properties": {}, "required": []},
+                }
+            ],
+            tool_manager=mock_tool_manager,
         )
 
         # Should handle error gracefully
@@ -851,7 +890,9 @@ class TestSequentialToolCalling:
         # Round 2: Model responds to empty results
         mock_response_2 = MagicMock()
         mock_response_2.choices = [MagicMock()]
-        mock_response_2.choices[0].message.content = "I couldn't find any information about that topic."
+        mock_response_2.choices[
+            0
+        ].message.content = "I couldn't find any information about that topic."
         mock_response_2.choices[0].message.tool_calls = None
 
         mock_ai_generator.client.chat.completions.create = MagicMock(
@@ -863,12 +904,14 @@ class TestSequentialToolCalling:
 
         result = mock_ai_generator.generate_response(
             query="Tell me about nonexistent topic",
-            tools=[{
-                "name": "search_course_content",
-                "description": "Search",
-                "input_schema": {"type": "object", "properties": {}, "required": []}
-            }],
-            tool_manager=mock_tool_manager
+            tools=[
+                {
+                    "name": "search_course_content",
+                    "description": "Search",
+                    "input_schema": {"type": "object", "properties": {}, "required": []},
+                }
+            ],
+            tool_manager=mock_tool_manager,
         )
 
         # Should handle empty results gracefully
@@ -914,20 +957,24 @@ class TestSequentialToolCalling:
         mock_tool_manager = MagicMock()
         mock_tool_manager.execute_tool.side_effect = [
             "MCP protocol is a communication standard.",
-            "MCP tools are functions that perform specific actions."
+            "MCP tools are functions that perform specific actions.",
         ]
 
-        result = mock_ai_generator.generate_response(
+        _ = mock_ai_generator.generate_response(
             query="Tell me about MCP protocol and tools",
-            tools=[{
-                "name": "search_course_content",
-                "description": "Search",
-                "input_schema": {"type": "object", "properties": {}, "required": []}
-            }],
-            tool_manager=mock_tool_manager
+            tools=[
+                {
+                    "name": "search_course_content",
+                    "description": "Search",
+                    "input_schema": {"type": "object", "properties": {}, "required": []},
+                }
+            ],
+            tool_manager=mock_tool_manager,
         )
 
         # Should call same tool twice
         assert mock_tool_manager.execute_tool.call_count == 2
-        mock_tool_manager.execute_tool.assert_any_call("search_course_content", query="MCP protocol")
+        mock_tool_manager.execute_tool.assert_any_call(
+            "search_course_content", query="MCP protocol"
+        )
         mock_tool_manager.execute_tool.assert_any_call("search_course_content", query="MCP tools")

@@ -54,3 +54,36 @@ The application will be available at:
 - Web Interface: `http://localhost:8000`
 - API Documentation: `http://localhost:8000/docs`
 
+## Development Tools
+
+This project includes code quality tools to maintain consistent code style and catch potential issues.
+
+### Code Quality Scripts
+
+The following scripts are available in the `scripts/` directory:
+
+- **`./scripts/format.sh`** - Format Python code with Black and isort
+- **`./scripts/lint.sh`** - Run code quality checks (Black, isort, flake8)
+- **`./scripts/check.sh`** - Run all quality checks including tests
+
+### Usage
+
+```bash
+# Format all Python code
+./scripts/format.sh
+
+# Run quality checks only
+./scripts/lint.sh
+
+# Run full check suite (quality + tests)
+./scripts/check.sh
+```
+
+### Code Quality Tools
+
+- **Black** - Automatic Python code formatter (line length: 100)
+- **isort** - Import statement organizer (compatible with Black)
+- **flake8** - Style guide enforcement (max line length: 100)
+
+All configuration is managed in `pyproject.toml`.
+

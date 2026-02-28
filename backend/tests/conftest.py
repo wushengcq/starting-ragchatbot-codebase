@@ -1,28 +1,30 @@
+# pylint: disable=wrong-import-position
 """Shared fixtures and configuration for RAG system tests"""
 
-import pytest
-import tempfile
 import shutil
-from pathlib import Path
-from unittest.mock import Mock, MagicMock, patch
-from dataclasses import dataclass
-from typing import List, Dict, Any, Optional
 
 # Import backend modules
 import sys
+import tempfile
+from pathlib import Path
+from typing import List
+from unittest.mock import MagicMock, patch
+
+import pytest
+
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from vector_store import VectorStore, SearchResults
-from search_tools import CourseSearchTool, CourseOutlineTool, ToolManager
 from ai_generator import AIGenerator
-from rag_system import RAGSystem
 from config import Config
-from models import Course, Lesson, CourseChunk
-
+from models import Course, CourseChunk, Lesson
+from rag_system import RAGSystem
+from search_tools import CourseOutlineTool, CourseSearchTool, ToolManager
+from vector_store import SearchResults, VectorStore
 
 # ============================================================================
 # Sample Test Data
 # ============================================================================
+
 
 @pytest.fixture
 def sample_lessons() -> List[Lesson]:
@@ -31,17 +33,17 @@ def sample_lessons() -> List[Lesson]:
         Lesson(
             lesson_number=1,
             title="Introduction to MCP",
-            lesson_link="https://example.com/mcp/lesson1"
+            lesson_link="https://example.com/mcp/lesson1",
         ),
         Lesson(
             lesson_number=2,
             title="Setting Up MCP Server",
-            lesson_link="https://example.com/mcp/lesson2"
+            lesson_link="https://example.com/mcp/lesson2",
         ),
         Lesson(
             lesson_number=3,
             title="MCP Tools and Resources",
-            lesson_link="https://example.com/mcp/lesson3"
+            lesson_link="https://example.com/mcp/lesson3",
         ),
     ]
 
@@ -53,7 +55,7 @@ def sample_course(sample_lessons) -> Course:
         title="Model Context Protocol (MCP) Introduction",
         course_link="https://example.com/mcp-course",
         instructor="John Doe",
-        lessons=sample_lessons
+        lessons=sample_lessons,
     )
 
 
@@ -62,32 +64,44 @@ def sample_course_chunks(sample_course) -> List[CourseChunk]:
     """Create sample course chunks for testing"""
     chunks = [
         CourseChunk(
-            content="MCP is a protocol for connecting AI assistants to external data sources. It enables context-aware interactions.",
+            content=(  # noqa: E501
+                "MCP is a protocol for connecting AI assistants to external data sources. "
+                "It enables context-aware interactions."
+            ),
             course_title=sample_course.title,
             lesson_number=1,
             chunk_index=0,
-            lesson_link="https://example.com/mcp/lesson1"
+            lesson_link="https://example.com/mcp/lesson1",
         ),
         CourseChunk(
-            content="To set up an MCP server, you need to define tools that the AI can use. Tools are functions that perform specific actions.",
+            content=(  # noqa: E501
+                "To set up an MCP server, you need to define tools that the AI can use. "
+                "Tools are functions that perform specific actions."
+            ),
             course_title=sample_course.title,
             lesson_number=2,
             chunk_index=1,
-            lesson_link="https://example.com/mcp/lesson2"
+            lesson_link="https://example.com/mcp/lesson2",
         ),
         CourseChunk(
-            content="MCP tools can be configured with parameters. The AI decides when to invoke each tool based on user queries.",
+            content=(  # noqa: E501
+                "MCP tools can be configured with parameters. The AI decides when to invoke "
+                "each tool based on user queries."
+            ),
             course_title=sample_course.title,
             lesson_number=2,
             chunk_index=2,
-            lesson_link="https://example.com/mcp/lesson2"
+            lesson_link="https://example.com/mcp/lesson2",
         ),
         CourseChunk(
-            content="Resources in MCP include data connections and file access. Proper resource management is essential for security.",
+            content=(  # noqa: E501
+                "Resources in MCP include data connections and file access. Proper resource "
+                "management is essential for security."
+            ),
             course_title=sample_course.title,
             lesson_number=3,
             chunk_index=3,
-            lesson_link="https://example.com/mcp/lesson3"
+            lesson_link="https://example.com/mcp/lesson3",
         ),
     ]
     return chunks
@@ -100,12 +114,10 @@ def sample_courses_multiple(sample_lessons) -> List[Course]:
         Lesson(
             lesson_number=1,
             title="Introduction to RAG",
-            lesson_link="https://example.com/rag/lesson1"
+            lesson_link="https://example.com/rag/lesson1",
         ),
         Lesson(
-            lesson_number=2,
-            title="Vector Databases",
-            lesson_link="https://example.com/rag/lesson2"
+            lesson_number=2, title="Vector Databases", lesson_link="https://example.com/rag/lesson2"
         ),
     ]
 
@@ -114,13 +126,13 @@ def sample_courses_multiple(sample_lessons) -> List[Course]:
             title="Model Context Protocol (MCP) Introduction",
             course_link="https://example.com/mcp-course",
             instructor="John Doe",
-            lessons=sample_lessons
+            lessons=sample_lessons,
         ),
         Course(
             title="Introduction to RAG Systems",
             course_link="https://example.com/rag-course",
             instructor="Jane Smith",
-            lessons=lessons_rag
+            lessons=lessons_rag,
         ),
     ]
 
@@ -128,6 +140,7 @@ def sample_courses_multiple(sample_lessons) -> List[Course]:
 # ============================================================================
 # Mock Vector Store Fixtures
 # ============================================================================
+
 
 @pytest.fixture
 def temp_chroma_path():
@@ -142,9 +155,7 @@ def temp_chroma_path():
 def mock_vector_store(temp_chroma_path):
     """Create a mock VectorStore for testing"""
     store = VectorStore(
-        chroma_path=temp_chroma_path,
-        embedding_model="all-MiniLM-L6-v2",
-        max_results=5
+        chroma_path=temp_chroma_path, embedding_model="all-MiniLM-L6-v2", max_results=5
     )
     return store
 
@@ -174,23 +185,24 @@ def mock_search_results():
                 "course_title": "Model Context Protocol (MCP) Introduction",
                 "lesson_number": 1,
                 "chunk_index": 0,
-                "lesson_link": "https://example.com/mcp/lesson1"
+                "lesson_link": "https://example.com/mcp/lesson1",
             },
             {
                 "course_title": "Model Context Protocol (MCP) Introduction",
                 "lesson_number": 2,
                 "chunk_index": 1,
-                "lesson_link": "https://example.com/mcp/lesson2"
+                "lesson_link": "https://example.com/mcp/lesson2",
             },
         ],
         distances=[0.23, 0.34],
-        error=None
+        error=None,
     )
 
 
 # ============================================================================
 # Mock AI Generator Fixtures
 # ============================================================================
+
 
 @pytest.fixture
 def mock_config():
@@ -203,28 +215,25 @@ def mock_config():
         CHUNK_OVERLAP=100,
         MAX_RESULTS=5,
         MAX_HISTORY=2,
-        CHROMA_PATH="./test_chroma_db"
+        CHROMA_PATH="./test_chroma_db",
     )
 
 
 @pytest.fixture
 def mock_ai_generator():
     """Create a mock AIGenerator for testing"""
-    with patch('ai_generator.ZhipuAI') as mock_zhipuai:
+    with patch("ai_generator.ZhipuAI") as mock_zhipuai:
         mock_client = MagicMock()
         mock_zhipuai.return_value = mock_client
 
-        generator = AIGenerator(
-            api_key="test-api-key",
-            model="glm-5"
-        )
+        generator = AIGenerator(api_key="test-api-key", model="glm-5")
         return generator
 
 
 @pytest.fixture
 def mock_glm_response():
     """Create a mock GLM API response"""
-    mock_response = MagicMock()
+    _ = MagicMock()  # Placeholder, unused in current fixture structure
 
     # Mock a response that doesn't use tools
     mock_response_no_tools = MagicMock()
@@ -243,15 +252,13 @@ def mock_glm_response():
     mock_tool_call.function.arguments = '{"query": "MCP protocol", "course_name": "MCP"}'
     mock_response_with_tools.choices[0].message.tool_calls = [mock_tool_call]
 
-    return {
-        "no_tools": mock_response_no_tools,
-        "with_tools": mock_response_with_tools
-    }
+    return {"no_tools": mock_response_no_tools, "with_tools": mock_response_with_tools}
 
 
 # ============================================================================
 # Tool Fixtures
 # ============================================================================
+
 
 @pytest.fixture
 def course_search_tool(mock_vector_store):
@@ -278,6 +285,7 @@ def tool_manager(course_search_tool, course_outline_tool):
 # RAG System Fixtures
 # ============================================================================
 
+
 @pytest.fixture
 def mock_rag_system(temp_chroma_path):
     """Create a mock RAGSystem for testing"""
@@ -289,11 +297,11 @@ def mock_rag_system(temp_chroma_path):
         MAX_RESULTS=5,
         MAX_HISTORY=2,
         CHUNK_SIZE=800,
-        CHUNK_OVERLAP=100
+        CHUNK_OVERLAP=100,
     )
 
     # Patch the ZhipuAI to avoid actual API calls
-    with patch('rag_system.ZhipuAI'):
+    with patch("rag_system.ZhipuAI"):
         rag = RAGSystem(config)
         return rag
 
@@ -311,17 +319,13 @@ def populated_rag_system(mock_rag_system, sample_course, sample_course_chunks):
 # Helper Functions
 # ============================================================================
 
+
 def create_mock_search_results(documents, metadata, distances=None):
     """Helper to create SearchResults objects"""
     if distances is None:
         distances = [0.3] * len(documents)
 
-    return SearchResults(
-        documents=documents,
-        metadata=metadata,
-        distances=distances,
-        error=None
-    )
+    return SearchResults(documents=documents, metadata=metadata, distances=distances, error=None)
 
 
 def create_empty_search_results(error_msg="No results found"):
