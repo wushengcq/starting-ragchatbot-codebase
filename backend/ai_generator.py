@@ -1,63 +1,73 @@
-from zhipuai import ZhipuAI
-from typing import List, Optional, Dict, Any
 import json
+from typing import Any, Dict, List, Optional
+
+from zhipuai import ZhipuAI
+
 
 class AIGenerator:
     """Handles interactions with BigModel's GLM API for generating responses"""
 
     # Static system prompt to avoid rebuilding on each call
-    SYSTEM_PROMPT = """You are an AI assistant specialized in course materials and educational content with access to tools for course information.
+    # fmt: off
+    SYSTEM_PROMPT = (
+        "You are an AI assistant specialized in course materials and educational content "
+        "with access to tools for course information.\n\n"
+        "Available Tools:\n"
+        "1. **get_course_outline** - Use for questions about course structure, lesson lists, "
+        "and course links\n"
+        "   - Input: Course title (full or partial)\n"
+        "   - Output: Course title, course link, instructor, and complete lesson list with "
+        "numbers and titles\n\n"
+        "2. **search_course_content** - Use for questions about specific course content or "
+        "detailed materials\n"
+        "   - Input: Search query, optional course name, optional lesson number\n"
+        "   - Output: Relevant content excerpts with sources\n\n"
+        "Tool Usage Guidelines:\n"
+        "- **Course outline questions** (e.g., \"What's covered in X course?\", "
+        "\"List lessons in X\"): Use get_course_outline\n"
+        "- **Content questions** (e.g., \"What does X say about Y?\", "
+        "\"Explain topic from lesson Z\"): Use search_course_content\n"
+        "- **Multi-round capability**: You can make up to 2 sequential tool calls to answer "
+        "complex questions\n"
+        "  - Example: First get course outline to find a lesson title, then search for "
+        "content about that topic\n"
+        "  - Use each round to build on previous tool results\n"
+        "- If a tool yields no results, state this clearly without offering alternatives\n\n"
+        "Response Protocol:\n"
+        "- **General knowledge questions**: Answer using existing knowledge without tools\n"
+        "- **Course-specific questions**: Use appropriate tool(s), then synthesize the "
+        "information\n"
+        "- **For course outline responses**: Present the course title, course link, "
+        "instructor, and lessons with their numbers explicitly shown\n"
+        "- **No meta-commentary**:\n"
+        " - Provide direct answers only — no reasoning process, tool explanations, or "
+        "question-type analysis\n"
+        " - Do not mention \"based on the tool results\" or similar phrases\n\n"
+        "All responses must be:\n"
+        "1. **Brief, Concise and focused** - Get to the point quickly\n"
+        "2. **Educational** - Maintain instructional value\n"
+        "3. **Clear** - Use accessible language\n"
+        "4. **Example-supported** - Include relevant examples when they aid understanding\n"
+        "5. **Comprehensive** - When using multiple tools, synthesize information from all "
+        "tool results\n\n"
+        "Provide only the direct answer to what was asked."
+    )
+    # fmt: on
 
-Available Tools:
-1. **get_course_outline** - Use for questions about course structure, lesson lists, and course links
-   - Input: Course title (full or partial)
-   - Output: Course title, course link, instructor, and complete lesson list with numbers and titles
-
-2. **search_course_content** - Use for questions about specific course content or detailed materials
-   - Input: Search query, optional course name, optional lesson number
-   - Output: Relevant content excerpts with sources
-
-Tool Usage Guidelines:
-- **Course outline questions** (e.g., "What's covered in X course?", "List lessons in X"): Use get_course_outline
-- **Content questions** (e.g., "What does X say about Y?", "Explain topic from lesson Z"): Use search_course_content
-- **Multi-round capability**: You can make up to 2 sequential tool calls to answer complex questions
-  - Example: First get course outline to find a lesson title, then search for content about that topic
-  - Use each round to build on previous tool results
-- If a tool yields no results, state this clearly without offering alternatives
-
-Response Protocol:
-- **General knowledge questions**: Answer using existing knowledge without tools
-- **Course-specific questions**: Use appropriate tool(s), then synthesize the information
-- **For course outline responses**: Present the course title, course link, instructor, and lessons with their numbers explicitly shown
-- **No meta-commentary**:
- - Provide direct answers only — no reasoning process, tool explanations, or question-type analysis
- - Do not mention "based on the tool results" or similar phrases
-
-All responses must be:
-1. **Brief, Concise and focused** - Get to the point quickly
-2. **Educational** - Maintain instructional value
-3. **Clear** - Use accessible language
-4. **Example-supported** - Include relevant examples when they aid understanding
-5. **Comprehensive** - When using multiple tools, synthesize information from all tool results
-
-Provide only the direct answer to what was asked.
-"""
-    
     def __init__(self, api_key: str, model: str):
         self.client = ZhipuAI(api_key=api_key)
         self.model = model
 
         # Pre-build base API parameters
-        self.base_params = {
-            "model": self.model,
-            "temperature": 0,
-            "max_tokens": 800
-        }
-    
-    def generate_response(self, query: str,
-                         conversation_history: Optional[str] = None,
-                         tools: Optional[List] = None,
-                         tool_manager=None) -> str:
+        self.base_params = {"model": self.model, "temperature": 0, "max_tokens": 800}
+
+    def generate_response(
+        self,
+        query: str,
+        conversation_history: Optional[str] = None,
+        tools: Optional[List] = None,
+        tool_manager=None,
+    ) -> str:
         """
         Generate AI response with optional tool usage and conversation context.
 
@@ -81,14 +91,11 @@ Provide only the direct answer to what was asked.
         # Prepare messages array with system message (ZhipuAI/GLM format)
         messages = [
             {"role": "system", "content": system_content},
-            {"role": "user", "content": query}
+            {"role": "user", "content": query},
         ]
 
         # Prepare API call parameters efficiently
-        api_params = {
-            **self.base_params,
-            "messages": messages
-        }
+        api_params = {**self.base_params, "messages": messages}
 
         # Add tools if available (convert to GLM format)
         if tools:
@@ -109,16 +116,18 @@ Provide only the direct answer to what was asked.
         """Convert Anthropic tool format to GLM/OpenAI format"""
         glm_tools = []
         for tool in anthropic_tools:
-            glm_tools.append({
-                "type": "function",
-                "function": {
-                    "name": tool["name"],
-                    "description": tool["description"],
-                    "parameters": tool["input_schema"]
+            glm_tools.append(
+                {
+                    "type": "function",
+                    "function": {
+                        "name": tool["name"],
+                        "description": tool["description"],
+                        "parameters": tool["input_schema"],
+                    },
                 }
-            })
+            )
         return glm_tools
-    
+
     def _handle_tool_execution(self, initial_response, base_params: Dict[str, Any], tool_manager):
         """
         Handle execution of tool calls with support for up to 2 sequential rounds.
@@ -168,41 +177,44 @@ Provide only the direct answer to what was asked.
             tool_calls_dict = []
             if assistant_message.tool_calls:
                 for tc in assistant_message.tool_calls:
-                    tool_calls_dict.append({
-                        "id": tc.id,
-                        "type": tc.type,
-                        "function": {
-                            "name": tc.function.name,
-                            "arguments": tc.function.arguments
+                    tool_calls_dict.append(
+                        {
+                            "id": tc.id,
+                            "type": tc.type,
+                            "function": {
+                                "name": tc.function.name,
+                                "arguments": tc.function.arguments,
+                            },
                         }
-                    })
+                    )
 
-            messages.append({
-                "role": "assistant",
-                "content": assistant_message.content or "",
-                "tool_calls": tool_calls_dict
-            })
+            messages.append(
+                {
+                    "role": "assistant",
+                    "content": assistant_message.content or "",
+                    "tool_calls": tool_calls_dict,
+                }
+            )
 
             # Execute each tool and append results
             for tool_call in assistant_message.tool_calls:
                 try:
                     function_args = json.loads(tool_call.function.arguments)
                     tool_result = tool_manager.execute_tool(
-                        tool_call.function.name,
-                        **function_args
+                        tool_call.function.name, **function_args
                     )
-                    messages.append({
-                        "role": "tool",
-                        "tool_call_id": tool_call.id,
-                        "content": tool_result
-                    })
+                    messages.append(
+                        {"role": "tool", "tool_call_id": tool_call.id, "content": tool_result}
+                    )
                 except Exception as e:
                     # Tool execution error - add error message
-                    messages.append({
-                        "role": "tool",
-                        "tool_call_id": tool_call.id,
-                        "content": f"Error: {str(e)}"
-                    })
+                    messages.append(
+                        {
+                            "role": "tool",
+                            "tool_call_id": tool_call.id,
+                            "content": f"Error: {str(e)}",
+                        }
+                    )
                     # Make final API call to handle error gracefully
                     final_params = {**self.base_params, "messages": messages}
                     final_response = self.client.chat.completions.create(**final_params)
@@ -220,7 +232,7 @@ Provide only the direct answer to what was asked.
                 **self.base_params,
                 "messages": messages,
                 "tools": base_params.get("tools"),
-                "tool_choice": "auto"
+                "tool_choice": "auto",
             }
             response = self.client.chat.completions.create(**api_params)
 
