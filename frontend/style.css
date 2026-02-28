@@ -119,6 +119,116 @@ header h1 {
     overflow: hidden;
     padding: 0;
     background: var(--background);
+    position: relative;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    width: 52px;
+    height: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    cursor: pointer;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+.theme-toggle:hover {
+    background: var(--surface-hover);
+    border-color: var(--primary-color);
+}
+
+.theme-toggle:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.theme-toggle-slider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.theme-icon {
+    position: absolute;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sun-icon {
+    left: 4px;
+    color: #fbbf24;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.moon-icon {
+    right: 4px;
+    color: #94a3b8;
+    opacity: 0;
+    transform: scale(0.5);
+}
+
+/* Light mode state */
+.theme-toggle.light-mode .sun-icon {
+    opacity: 0;
+    transform: scale(0.5);
+}
+
+.theme-toggle.light-mode .moon-icon {
+    opacity: 1;
+    transform: scale(1);
+    color: #6366f1;
+}
+
+/* Light mode theme variables */
+body.light-mode {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --background: #f8fafc;
+    --surface: #ffffff;
+    --surface-hover: #f1f5f9;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --user-message: #2563eb;
+    --assistant-message: #ffffff;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --focus-ring: rgba(37, 99, 235, 0.2);
+    --welcome-bg: #eff6ff;
+    --welcome-border: #2563eb;
+}
+
+body.light-mode .message.assistant .message-content {
+    border: 1px solid var(--border-color);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .message-content code {
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .message-content pre {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .chat-input-container {
+    border-top-color: var(--border-color);
+}
+
+body.light-mode .sidebar {
+    border-right-color: var(--border-color);
 }
 
 /* Chat Container - Centered with Max Width */
@@ -677,6 +787,13 @@ details[open] .suggested-header::before {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .theme-toggle {
+        top: 1rem;
+        right: 1rem;
+        width: 48px;
+        height: 26px;
+    }
+
     .main-content {
         flex-direction: column;
     }
