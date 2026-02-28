@@ -16,6 +16,8 @@
   - Handle proper cleanup on both @fronted and @backend
   - Match the styling of existing sections(Courses, Try asking) - same font size, color, and uppercase formatting
 + Using the playwright MCP server visit 127.0.0.1:8000 and view the new chat button. I want that buttong to look the same as the other links below for Courses and Try Asking. Make sure this is left aligned and that the border is removed
++ Using the playwright MCP server visit 127.0.0.1:8000 and view the Theme Toggle Button, make sure it work correctly for theme switch and smooth animation.
+
 + In @backend/search_tools.py, add a second tool alongside the existing content-related tool. This new tool should handle course outline queries.
   - Functionality:
     - Input: Course title.
@@ -55,7 +57,12 @@
   - Use an icon-based design (sun/moon icons or similar)
   - Smooth translation animation when toggling
   - Button should be accessible and keyboard-navigable
+
++ Add essential code quality tools to the development workflow. Set up Black for automatic code formatting. Add proper formatting consistency throughout the codebase and create development scripts for running quality checks.
   
++ Use the git merge command to merge in all of the worktrees in the .trees folder and fix any conflicts if there are any.
+
++ Stage all modified files and commit them with a concise, imperative-style message that explains the 'why' behind the changes.
 
 ## CLAUDE.md files
 
